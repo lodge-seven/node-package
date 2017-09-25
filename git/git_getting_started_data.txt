@@ -77,3 +77,24 @@
     ** 4 提交文件到当前分支
 
     提交文件到当前分支 git commit -m "标题"
+
+4 对远程服务器GitHub操作：
+    ** 1 新建仓库（repository）
+    1 注册github账号。
+    2 登录后点击个人头像，选择your profile，进入版本库。
+    3 在Repositories中点击New，新建一个版本库。
+    4 填写仓库名，描述，是否有说明，分类。
+
+    ** 2 配置git
+    1 创建本地私钥ssh key：
+        bash控制台生成秘钥命令 ssh -keygen -t rsa -C "邮箱名"，默认回车。生成的文件放在默认路径下。
+    2 github生成公钥：
+        github上点击头像，选择Settings-->SHH and GPG keys-->New GPG key，输入秘钥
+    3 测试是否成功连接github：
+        ssh -t git@github.com
+    
+    ** 3 创建及使用分支
+    创建本地分支 git checkout -b dev
+
+    远程仓库分支复制到本地 git pull origin dev
+    
