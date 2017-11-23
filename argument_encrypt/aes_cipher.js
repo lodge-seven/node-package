@@ -17,8 +17,8 @@
 var crypto = require('crypto');
 var cipherMethod = crypto.createCipher('aes-256-ecb', 'token-seven');
 var end = ''; 
-end += cipherMethod.update('我爱你ლ(′◉❥◉｀ლ)', 'utf8', 'hex');
-end += cipherMethod.final('hex');
+end += cipherMethod.update('我爱你ლ(′◉❥◉｀ლ)', 'utf8', 'base64');
+end += cipherMethod.final('base64');
 console.log(end);
 
 /* 
@@ -28,6 +28,6 @@ console.log(end);
 */
 var decipherMethod = crypto.createDecipher('aes-256-ecb', 'token-seven');
 var start = '';
-start += decipherMethod.update(end, 'hex', 'utf8');
+start += decipherMethod.update(end, 'base64', 'utf8');
 start += decipherMethod.final('utf8');
 console.log(start);
