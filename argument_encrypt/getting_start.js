@@ -52,13 +52,17 @@ console.log('wqqwewqeqwe');
  */
 var keys = 'FHDJsSDJSEbnbnRGSDFGz13602567887';
 module.exports.aesEncodeCipher = function (data, key) {
+    // 原文要字符串
     var datastr = typeof(data) === 'string'? data : JSON.stringify(data);
-    // 进行一次编码
-	var buf = new Buffer(datastr);
+    // 原文转成buffer
+    var buf = new Buffer(datastr);
+    // buffer转base64
     var base64String = buf.toString('base64');
-    // 加密 实例化一个cipher对象
+    // 加密 用一个加密算法和双方一致的钥匙实例化一个cipher对象（这一步保证加密对象是唯一的）key一般为md5
     var cipher = crypto.createCipheriv('aes-256-ecb', key, '');
+    // 用数组追加 可能一个原文很长 需要分段
     var cipherChunks = [];
+    // 原文进行加密，输出格式为16进制
     cipherChunks.push(cipher.update(base64String, 'utf8', 'hex'));
     cipherChunks.push(cipher.final('hex'));
     // cipher.update(base64String, 'utf8', 'hex');
@@ -81,6 +85,7 @@ module.exports.aesDecodeCipher = function (data, key) {
     // 解密的decipher类实例化对象
     var decipher = crypto.createDecipheriv('aes-256-ecb', key, '');
     for (var i = 0;i < cipherChunks.length; i++) {
+        // 密文进行解密，输出格式为utf8
         plainChunks.push(decipher.update(cipherChunks[i], 'hex', 'utf8'));
     }
     plainChunks.push(decipher.final('utf8'));
@@ -115,17 +120,15 @@ var md5Key = this.md5(urlArr._m + '.' + urlArr._n + '.' + urlArr._f);
 // 用密钥上锁我们的暗号 用密文给你心爱的人表白
 var ourCipher = '我爱你ლ(′◉❥◉｀ლ)';
 // console.log(ourCipher);
-// 编个码
+// 编个码 原因：中文编码不一致导致解密后的数据乱码 这一步建议封装到加密中
 ourCipher = encodeURIComponent(ourCipher);
 // ourCipher = decodeURIComponent(ourCipher);
 console.log(ourCipher);
 var cipherHash = this.aesEncodeCipher(ourCipher, md5Key);
-// 这个加密不能加特殊符号，解密不全
  console.log(cipherHash); // 05d1f28d3e3cdd5035503ac56e36cd52
 // 现在反向解码
 // 需要的密钥：b644f98af58f84becfbd0ee75495ae0d，需要的密文：05d1f28d3e3cdd5035503ac56e36cd52
 var cipherAnalysis = this.aesDecodeCipher('fc19eb0e5e584c26f0b18a370bae951e69bfefdf59839dae9aad346af6d06bf2a49d1a5642645f6e515f260b24f2916a6cdb467ea100c66483447aff98e553c47012d0b66fe53bb1a9ff9706096adc07101a86fc7b3419358e2bca1134f1ef94977a7a686ddf52fa8ceb1044db1d464dc6f228d48108e4d89632f09023b6cc88', md5Key);
 cipherAnalysis = decodeURIComponent(cipherAnalysis);
 console.log(cipherAnalysis);
-
 

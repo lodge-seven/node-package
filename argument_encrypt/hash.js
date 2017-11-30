@@ -30,6 +30,7 @@ console.log(md5Value); */
     hmac密钥哈希
     指定一个密钥去加密哈希值的函数
     createHmac(algorithm, sign)
+    这个自我感觉比平台上的md5好一点
 */
 var macHashMethod = crypto.createHmac('md5','任何一个用于加密的签名哦');
 var macUpdate = macHashMethod.update('ლ(′◉❥◉｀ლ)');
